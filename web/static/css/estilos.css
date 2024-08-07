@@ -1,0 +1,30 @@
+:root {
+  --primary: #872202ff;
+  --secondary: #ede7deff;
+  --accent: #da861dff;
+  --white: #ffffffff;
+  --khaki: #b59c87ff;
+}
+body {
+  background-color: var(--secondary) !important;
+}
+h3 {
+  font-family: "Lobster", sans-serif;
+  color: var(--primary);
+}
+.custom-footer {
+  background-color: var(--primary);
+  height: 127px;
+}
+.custom-footer p {
+  font-size: 15px;
+  color: var(--white);
+}
+
+.custom-user {
+  color: var(--secondary) !important;
+}
+.carousel-img {
+  max-height: 400px;
+  object-fit: cover;
+}

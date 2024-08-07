@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %} Administrar {% endblock %}
+{% block 'content' %}
+<div class="container">
+    <form action="/bienvenido" method="post">
+        {% csrf_token %}
+        <h3 class="text-center">Panel de administrador</h3>
+
+        <div class="my-4 row align-items-center">
+            <div class="dropdown col-auto">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+
+                    Elija descuento:
+                </button>
+                <ul class="dropdown-menu">
+                    {% for dto in dscto %}
+                    <li><a class="dropdown-item" href="#">{{ dto }}%</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <h4>Descuento actual: {{form.actual_offer}}%</h4>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-success">Generar descuento</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

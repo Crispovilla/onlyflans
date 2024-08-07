@@ -1,16 +1,36 @@
 {% extends 'base.html' %}
 {% block title %} Bienvenido {% endblock %}
 {% block 'content' %}
+
+{% load custom_filters %}
 <div class="container">
-    <h3 class="text-center my-4">Bienvenido</h3>
     <div class="row">
+        <div class="row">
+            <div class="col">
+                <div class="h-100 p-5 text-white bg-dark rounded-3">
+                    <h2 class="custom-user">Bienvenido {{user.get_username|capfirst}}.</h2>
+                    <p>Tenemos una lista de productos exclusivos para ti. Quieres conocer mas?</p>
+                    <a href="{% url 'contacto' %}" class="btn btn-outline-light">Contactanos</a>
+                </div>
+            </div>
+        </div>
         {% for flan in flanes_privados %}
-        <div class="col-6 col-md-3">
+        <div class="col-12 col-md-6 col-lg-3">
             <div class="card m-2" style="">
                 <img src="{{ flan.image_url }}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">{{flan.name}}</h5>
+                    <h5 class="card-title fw-bold">{{flan.name}}</h5>
                     <p class="card-text">{{flan.description}}</p>
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <h6 class="text-danger text-decoration-line-through">Antes: ${{flan.price|intdot}}</h6>
+                        </div>
+                        <div class="col-auto">
+                            <h5 class="bg-danger text-white rounded-pill p-2 text-center">-{{flan.actual_offer}}%</h5>
+                        </div>
+                    </div>
+
+                    <h5 class="text-warning fw-bold">Ahora: ${{flan.discounted_price|intdot}}</h5>
                 </div>
             </div>
         </div>

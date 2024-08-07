@@ -8,6 +8,9 @@ class Flan(models.Model):
     image_url = models.URLField(default='https://acortar.link/Hs3SLR')
     slug = models.SlugField(max_length=64, unique=True, default='default-slug')
     is_private = models.BooleanField()
+    price = models.IntegerField(default=2000)
+    actual_offer = models.IntegerField(default=50)
+    offer = models.JSONField(default=[10, 15, 20, 25, 30, 35]) 
 
 
 class ContactForm(models.Model):

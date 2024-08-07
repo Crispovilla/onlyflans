@@ -1,22 +1,61 @@
-<div class="container">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'indice' %}">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'bienvenido' %}">Bienvenido</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'acerca' %}">Acerca</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
-                    </li>
-                </ul>
-            </div>
+{% load static %}
+<div class="container my-4">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'onlyflans.png' %}" alt="logo" class="img-fluid" width="80">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'indice' %}">Inicio<span class="sr-only">(current)</span></a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'bienvenido' %}">Bienvenido</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'acerca' %}">Acerca</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+
+                {% if user.is_authenticated and user.get_username == 'admin' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin' %}">Administrar</a>
+                </li>
+                {% endif %}
+
+                {% if not user.is_authenticated %}
+                <li class="nav-item px-2">
+                    <a class="nav-link text-success" title="Iniciar sesión" href="{% url 'login' %}">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-success" title="Registrar" href="{% url 'register' %}">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-danger" title="Cerrar sesión" href="{% url 'logout' %}">
+                        <i class="fa-solid fa-power-off"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
         </div>
     </nav>
 </div>

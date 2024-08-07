@@ -1,16 +1,26 @@
 {% extends 'base.html' %}
 {% block title %} Inicio {% endblock %}
 {% block 'content' %}
+{% load custom_filters %}
 <div class="container">
-    <h3 class="text-center my-4">Flanes públicos</h3>
     <div class="row">
+        <div class="row">
+            <div class="col">
+                <div class="h-100 p-5 text-white bg-dark rounded-3">
+                    <h2>Nuestros productos</h2>
+                    <p>Onlyflans nace en el 2021 buscando entregar flanes de calidad</p>
+                    <a href="{% url 'acerca' %}" class="btn btn-outline-light">Conoce mas</a>
+                </div>
+            </div>
+        </div>
         {% for flan in flanes_publicos %}
-        <div class="col-6 col-md-3">
-            <div class="card m-2" style="">
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card m-3">
                 <img src="{{ flan.image_url }}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{flan.name}}</h5>
                     <p class="card-text">{{flan.description}}</p>
+                    <h5 class="card-text">${{flan.price|intdot}}</h5>
                 </div>
             </div>
         </div>
