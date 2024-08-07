@@ -16,7 +16,7 @@ class ContactFormForm(forms.Form):
 class FlanOfferForm(forms.ModelForm):
     class Meta:
         model = Flan
-        fields = ['offer', 'actual_offer'] 
+        fields = ['actual_offer'] 
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)

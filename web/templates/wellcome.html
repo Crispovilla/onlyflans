@@ -7,8 +7,8 @@
     <div class="row">
         <div class="row">
             <div class="col">
-                <div class="h-100 p-5 text-white bg-dark rounded-3">
-                    <h2 class="custom-user">Bienvenido {{user.get_username|capfirst}}.</h2>
+                <div class="h-100 p-5 text-white  bg-custom-primary">
+                    <h2>Bienvenido <span class="custom-user">{{user.get_username|capfirst}}</span></h2>
                     <p>Tenemos una lista de productos exclusivos para ti. Quieres conocer mas?</p>
                     <a href="{% url 'contacto' %}" class="btn btn-outline-light">Contactanos</a>
                 </div>
@@ -16,10 +16,11 @@
         </div>
         {% for flan in flanes_privados %}
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card m-2" style="">
+            <div class="card m-2">
                 <img src="{{ flan.image_url }}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title fw-bold">{{flan.name}}</h5>
+                    <hr>
                     <p class="card-text">{{flan.description}}</p>
                     <div class="row align-items-center">
                         <div class="col-auto">
@@ -29,8 +30,22 @@
                             <h5 class="bg-danger text-white rounded-pill p-2 text-center">-{{flan.actual_offer}}%</h5>
                         </div>
                     </div>
-
                     <h5 class="text-warning fw-bold">Ahora: ${{flan.discounted_price|intdot}}</h5>
+                    <hr>
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-auto">
+                            <i class="fa-solid fa-circle-minus m-0 p-0 text-primary"></i>
+                        </div>
+                        <div class="col-auto">
+                            <p>cantidad: </p>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-circle-plus m-0 p-0 text-primary"></i>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-cart-plus fa-2x text-primary"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

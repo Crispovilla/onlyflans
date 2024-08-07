@@ -1,36 +1,41 @@
 {% extends 'base.html' %}
 {% block title %} Administrar {% endblock %}
 {% block 'content' %}
+{% load bootstrap %}
 <div class="container">
-    <form action="/bienvenido" method="post">
+    <form action="{% url 'admin' %}" method="post">
         {% csrf_token %}
         <h3 class="text-center">Panel de administrador</h3>
 
-        <div class="my-4 row align-items-center">
-            <div class="dropdown col-auto">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
 
-                    Elija descuento:
-                </button>
-                <ul class="dropdown-menu">
-                    {% for dto in dscto %}
-                    <li><a class="dropdown-item" href="#">{{ dto }}%</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <h4>Descuento actual: {{form.actual_offer}}%</h4>
+        <div class="container text-center py-5">
+            <div class="row py-5">
+                <div class="col-5">
+                    <div class="dropdown col-auto">
+                        <button class="btn btn-secondary custom-button dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Elija descuento:
+                        </button>
+                        <ul class="dropdown-menu">
+                            {% for dto in dscto %}
+                            <li><a class="dropdown-item" href="#"
+                                    onclick="document.getElementById('id_actual_offer').value='{{ dto }}'">
+                                    {{ dto }}%</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-auto">
-                    <button class="btn btn-success">Generar descuento</button>
+                <div class="col">
+
+                    {{ form.actual_offer|add_class:"form-control custom-slot-offer" }}
+                </div>
+                <div class="col">
+                    <button class="btn btn-success custom-button" type="submit">Generar descuento</button>
                 </div>
             </div>
         </div>
 
     </form>
-
 </div>
 
 {% endblock %}

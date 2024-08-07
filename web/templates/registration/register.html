@@ -10,7 +10,6 @@
         <div class="col-10 col-md-8 col-lg-4">
             <form action="/register" method="post">
                 {% csrf_token %}
-                <!-- {{ form }} -->
                 {{ form.non_field_errors }}
 
                 <div class="mb-3 text-left">
@@ -62,7 +61,7 @@
                 </div>
 
                 <div class="text-left">
-                    <input class="btn btn-success mb-3" type="submit" value="Registrar">
+                    <input class="btn btn-success custom-button mb-3" type="submit" value="Registrar">
                 </div>
             </form>
         </div>
