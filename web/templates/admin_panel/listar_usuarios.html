@@ -1,0 +1,42 @@
+{% block 'content' %}
+{% load bootstrap %}
+{% load custom_filters %}
+{% load static %}
+
+<h4 class="py-3">Lista de Usuarios</h4>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Nombre de Usuario</th>
+            <th>Correo Electrónico</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.username|capfirst }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>
+                <a href="{% url 'eliminar_usuario' usuario.id %}" class="btn btn-danger custom-button-danger"
+                    onclick=confirmDelete()>
+                    <i class="fa-regular fa-trash-can"></i>
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No hay usuarios para mostrar.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    function confirmDelete() {
+        return confirm('¿Estás seguro de eliminar este usuario?');
+    }
+</script>
+
+{% endblock %}

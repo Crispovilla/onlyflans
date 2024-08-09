@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %} Reseña {% endblock %}
+{% block 'content' %}
+{% load bootstrap %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-10 col-md-8 col-lg-4 py-4">
+            <h3 class="text-center">Añadir una Reseña</h3>
+            <div class="text-center py-4">
+                <h4>Hola <span class="custom-user fw-bold">{{user.get_username|capfirst}}!</span></h4>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="review" class="form-label">Mensaje</label>
+                    {{ form.review|add_class:"form-control" }}
+                </div>
+                <button type="submit" class="btn btn-success custom-button custom-button-success">Enviar
+                    Reseña</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

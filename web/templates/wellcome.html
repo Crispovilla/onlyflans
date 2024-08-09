@@ -10,7 +10,13 @@
                 <div class="h-100 p-5 text-white  bg-custom-primary">
                     <h2>Bienvenido <span class="custom-user fw-bold">{{user.get_username|capfirst}}</span></h2>
                     <p>Tenemos una lista de productos exclusivos para ti. Quieres conocer mas?</p>
-                    <a href="{% url 'contacto' %}" class="btn btn-outline-light">Contactanos</a>
+
+                    <div class="row">
+                        <div class="col">
+                            <a href="{% url 'contacto' %}" class="btn btn-outline-light">Contactanos</a>
+                            <a href="{% url 'resena' %}" class="btn custom-button custom-button-success">Reseña</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 import uuid
 # Create your models here.
 class Flan(models.Model):
@@ -18,3 +19,7 @@ class ContactForm(models.Model):
     customer_email = models.EmailField()
     customer_name = models.CharField(max_length=64)
     message = models.TextField()
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  
+    review = models.TextField()

@@ -1,0 +1,50 @@
+{% block 'content' %}
+{% load bootstrap %}
+{% load custom_filters %}
+{% load static %}
+<!-- Tabla de productos -->
+<h4 class="py-3">Lista de Productos</h4>
+<!-- Botón para agregar un nuevo flan -->
+<div class="text-center mb-3">
+    <a href="{% url 'agregar_flan' %}" class="btn btn-primary custom-button custom-button-success">Agregar
+        Nuevo Flan</a>
+</div>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Imagen</th>
+            <th>Precio</th>
+            <th>Privado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for flan in flanes %}
+        <tr>
+            <td>{{ flan.name }}</td>
+            <td>{{ flan.description }}</td>
+            <td><img src="{{ flan.image_url }}" alt="" style="width:80px;"></td>
+            <td>${{ flan.price|intdot }}</td>
+            <td>
+                {% if flan.is_private %}
+                <i class="fa-regular fa-circle-check fa-lg text-success"></i>
+                {% else %}
+                <i class="fa-regular fa-circle-xmark fa-lg text-danger"></i>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'editar_flan' flan.id %}" class="btn btn-warning custom-button-warning"><i
+                        class="fa-regular fa-pen-to-square"></i></a>
+                <a href="{% url 'eliminar_flan' flan.id %}" class="btn btn-danger custom-button-danger"
+                    onclick=confirmDelete()>
+                    <i class="fa-regular fa-trash-can"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

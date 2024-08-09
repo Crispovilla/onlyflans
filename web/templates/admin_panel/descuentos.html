@@ -1,0 +1,44 @@
+{% block 'content' %}
+{% load bootstrap %}
+{% load custom_filters %}
+<h4 class="py-3">Descuento</h4>
+<form action="{% url 'admin' %}" method="post">
+    {% csrf_token %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Seleccionar Descuento</th>
+                <th>Vista Previa Dto.</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary custom-button dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Elija descuento:
+                        </button>
+                        <ul class="dropdown-menu">
+                            {% for dto in dscto %}
+                            <li><a class="dropdown-item" href="#"
+                                    onclick="document.getElementById('id_actual_offer').value='{{ dto }}'">
+                                    {{ dto }}%</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    {{ form.actual_offer|add_class:"form-control custom-slot-offer" }}
+                </td>
+                <td>
+                    <button class="btn btn-success custom-button custom-button-success" type="submit">
+                        Generar descuento
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+{% endblock %}

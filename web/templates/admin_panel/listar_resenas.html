@@ -1,0 +1,31 @@
+{% block 'content' %}
+{% load bootstrap %}
+{% load custom_filters %}
+{% load static %}
+<h4 class="py-3">Lista de Reseñas</h4>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Nombre usuario</th>
+            <th>Reseñas</th>
+            <th>Accion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for resena in resenas %}
+        <tr>
+            <td>{{ resena.user.username|capfirst }}</td>
+            <td>{{ resena.review }}</td>
+            <td>
+                <a href="{% url 'eliminar_resena' resena.id %}" class="btn btn-danger custom-button-danger"
+                    onclick=confirmDelete()>
+                    <i class="fa-regular fa-trash-can"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,20 +1,23 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from .forms import ContactFormForm, FlanOfferForm, FlanForm
-from .models import Flan, ContactForm
+from .models import Flan, ContactForm, Review
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout as auth_logout
-from django.urls import reverse
-from .forms import RegisterForm
+from .forms import RegisterForm, ReviewForm
 from django.shortcuts import get_object_or_404, redirect
-# Create your views here.
+from django.contrib.auth.models import User
+
+
+# Vista Inicio
 def indice(request):
     flanes = Flan.objects.all()    
     flanes_publicos = Flan.objects.filter(is_private=False)    
     return render(request, 'index.html', {'flanes_publicos': flanes_publicos} )
 
 def acerca(request):
-    return render(request, 'about.html', {} )
+    resenas = Review.objects.select_related('user').all()
+    return render(request, 'about.html', {'resenas': resenas} )
 
 @login_required
 def bienvenido(request):
@@ -22,6 +25,22 @@ def bienvenido(request):
     for flan in flanes_privados:
         flan.discounted_price = int(flan.price - (flan.price * flan.actual_offer / 100))
     return render(request, 'wellcome.html', {'flanes_privados': flanes_privados} )
+
+def resena(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user  # Asignar el usuario autenticado directamente
+            review.save()
+            return redirect('/exito_resena')  # Redirigir después de guardar
+    else:
+        form = ReviewForm()
+    return render(request, 'resena.html', {'form': form})
+
+def exito_resena(request):
+    return render(request, 'review_success.html')
+
 
 # Manejo del cierre se Sesion
 def logout(request):
@@ -72,13 +91,16 @@ def admin_panel(request):
             return redirect('bienvenido')  # Redirige para evitar reenvíos de formularios
     else:
         form = FlanOfferForm()
-
-    flan = Flan.objects.first()  # Obtiene el primer objeto Flan para mostrar la oferta actual
+    flan = Flan.objects.first()
     flanes = Flan.objects.all()
+    resenas = Review.objects.select_related('user').all()
+    usuarios = User.objects.exclude(is_superuser=True)
     return render(request, 'admin.html', {
         'form': form, 
         'dscto': flan.offer if flan else [],
-        'flanes': flanes
+        'flanes': flanes,
+        'resenas': resenas,
+        'usuarios': usuarios,
         })
 # Función para agregar un nuevo flan
 def agregar_flan(request):
@@ -112,3 +134,13 @@ def eliminar_flan(request, flan_id):
     flan = get_object_or_404(Flan, id=flan_id)
     flan.delete()
     return redirect('admin')
+    
+def eliminar_resena(request, resena_id):
+    resena = get_object_or_404(Review, id=resena_id)
+    resena.delete()
+    return redirect('admin')
+
+def eliminar_usuario(request, usuario_id):
+    usuario = get_object_or_404(User, id=usuario_id)
+    usuario.delete()
+    return redirect('admin') 

@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import ContactForm, Flan
+from .models import ContactForm, Flan, Review
 from django.contrib.auth.forms import User
 from django.contrib.auth.forms import UserCreationForm
 class ContactFormForm(forms.Form):
@@ -40,3 +40,8 @@ class FlanForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['actual_offer'].required = False 
         
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['review']
