@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import ContactFormForm, FlanOfferForm
+from .forms import ContactFormForm, FlanOfferForm, FlanForm
 from .models import Flan, ContactForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout as auth_logout
 from django.urls import reverse
 from .forms import RegisterForm
+from django.shortcuts import get_object_or_404, redirect
 # Create your views here.
 def indice(request):
     flanes = Flan.objects.all()    
@@ -30,6 +31,7 @@ def logout(request):
 def logout_done(request):
     return render(request, 'registration/logout.html',{})
 
+# Formulario de contacto
 def contacto(request):
     if request.method =='POST':
         form = ContactFormForm(request.POST)
@@ -43,7 +45,7 @@ def contacto(request):
 def exito(request):
     return render(request, 'success.html', {})
 
-
+# Funcionalidad de Registro de Usuario
 def registro(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -59,6 +61,7 @@ def registro(request):
         form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
 
+# Funcionalidad de Panel de Administracion
 def admin_panel(request):
     if request.method == 'POST':
         form = FlanOfferForm(request.POST)
@@ -71,4 +74,41 @@ def admin_panel(request):
         form = FlanOfferForm()
 
     flan = Flan.objects.first()  # Obtiene el primer objeto Flan para mostrar la oferta actual
-    return render(request, 'admin.html', {'form': form, 'dscto': flan.offer if flan else []})
+    flanes = Flan.objects.all()
+    return render(request, 'admin.html', {
+        'form': form, 
+        'dscto': flan.offer if flan else [],
+        'flanes': flanes
+        })
+# Función para agregar un nuevo flan
+def agregar_flan(request):
+    if request.method == 'POST':
+        form = FlanForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('admin')
+        else:
+            print(form.errors)
+    else:
+        form = FlanForm()    
+    return render(request, 'agregar_flan.html', {'form': form})
+
+# Función para editar un nuevo flan
+def editar_flan(request, flan_id):
+    flan = get_object_or_404(Flan, id=flan_id)
+    print(flan) 
+    if request.method == 'POST':
+        form = FlanForm(request.POST, instance=flan)
+        if form.is_valid():
+            form.save()
+            return redirect('admin')
+    else:
+        form = FlanForm(instance=flan)
+        print(form)
+    return render(request, 'editar_flan.html', {'form': form})
+    
+# Función para eliminar un nuevo flan
+def eliminar_flan(request, flan_id):
+    flan = get_object_or_404(Flan, id=flan_id)
+    flan.delete()
+    return redirect('admin')

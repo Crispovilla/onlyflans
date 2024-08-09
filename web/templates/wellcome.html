@@ -5,10 +5,10 @@
 {% load custom_filters %}
 <div class="container">
     <div class="row">
-        <div class="row">
+        <div class="row bg-custom-primary m-0">
             <div class="col">
                 <div class="h-100 p-5 text-white  bg-custom-primary">
-                    <h2>Bienvenido <span class="custom-user">{{user.get_username|capfirst}}</span></h2>
+                    <h2>Bienvenido <span class="custom-user fw-bold">{{user.get_username|capfirst}}</span></h2>
                     <p>Tenemos una lista de productos exclusivos para ti. Quieres conocer mas?</p>
                     <a href="{% url 'contacto' %}" class="btn btn-outline-light">Contactanos</a>
                 </div>
@@ -24,28 +24,37 @@
                     <p class="card-text">{{flan.description}}</p>
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <h6 class="text-danger text-decoration-line-through">Antes: ${{flan.price|intdot}}</h6>
+                            <h6 class="text-grey text-decoration-line-through">${{flan.price|intdot}}</h6>
                         </div>
+
                         <div class="col-auto">
-                            <h5 class="bg-danger text-white rounded-pill p-2 text-center">-{{flan.actual_offer}}%</h5>
+                            <span class="badge text-bg-danger mx-4">
+                                <h6 class="fw-bold pt-1">
+                                    {{flan.actual_offer}}%
+                                </h6>
+                                <p class="text-light">
+                                    dcto.
+                                </p>
+                            </span>
                         </div>
+
                     </div>
-                    <h5 class="text-warning fw-bold">Ahora: ${{flan.discounted_price|intdot}}</h5>
+                    <h4 class="text-dark fw-bold pt-2">Ahora: ${{flan.discounted_price|intdot}}</h4>
                     <hr>
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-auto">
-                            <i class="fa-solid fa-circle-minus m-0 p-0 text-primary"></i>
+
+
+                    <div class="container">
+                        <div class="row align-items-center justify-content-center custom-button">
+                            <div class="col-auto">
+                                <i class="fa-solid fa-cart-plus fa-lg text-light "></i>
+                            </div>
+                            <div class="col-auto">
+                                <p class="text-light mt-3">Agregar al carrito</p>
+                            </div>
                         </div>
-                        <div class="col-auto">
-                            <p>cantidad: </p>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fa-solid fa-circle-plus m-0 p-0 text-primary"></i>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fa-solid fa-cart-plus fa-2x text-primary"></i>
-                        </div>
+
                     </div>
+
                 </div>
             </div>
         </div>

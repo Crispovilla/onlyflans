@@ -4,12 +4,12 @@
 {% load custom_filters %}
 <div class="container">
     <div class="row">
-        <div class="row">
+        <div class="row bg-custom-primary m-0">
             <div class="col">
-                <div class="h-100 p-5 text-white bg-custom-primary rounded-3">
+                <div class="h-100 p-5 text-white bg-custom-primary">
                     <h2>Nuestros productos</h2>
                     <p>Onlyflans nace en el 2021 buscando entregar flanes de calidad</p>
-                    <a href="{% url 'acerca' %}" class="btn btn-outline-light">Conoce mas</a>
+                    <a href="{% url 'acerca' %}" class="btn btn-outline-light">Conoce más</a>
                 </div>
             </div>
         </div>
@@ -21,23 +21,19 @@
                     <h5 class="card-title">{{flan.name}}</h5>
                     <hr>
                     <p class="card-text">{{flan.description}}</p>
-                    <h5 class="card-text">${{flan.price|intdot}}</h5>
+                    <h4 class="text-dark fw-bold pt-2">${{flan.price|intdot}}</h4>
                     <hr>
 
 
-                    <div class="row align-items-center justify-content-center">
+                    <div class="container">
+                        <div class="row align-items-center justify-content-center custom-button">
 
-                        <div class="col-auto">
-                            <i class="fa-solid fa-circle-minus m-0 p-0 text-primary"></i>
-                        </div>
-                        <div class="col-auto">
-                            <p>cantidad: </p>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fa-solid fa-circle-plus m-0 p-0 text-primary"></i>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fa-solid fa-cart-plus fa-2x text-primary"></i>
+                            <div class="col-auto">
+                                <i class="fa-solid fa-cart-plus fa-lg text-light "></i>
+                            </div>
+                            <div class="col-auto">
+                                <p class="text-light mt-3">Agregar al carrito</p>
+                            </div>
                         </div>
                     </div>
                 </div>

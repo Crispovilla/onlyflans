@@ -30,3 +30,13 @@ class RegisterForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class FlanForm(forms.ModelForm):
+    class Meta:
+        model = Flan
+        fields = ['name', 'description', 'image_url', 'is_private', 'price', 'actual_offer', 'slug']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['actual_offer'].required = False 
+        

@@ -2,40 +2,105 @@
 {% block title %} Administrar {% endblock %}
 {% block 'content' %}
 {% load bootstrap %}
+{% load custom_filters %}
 <div class="container">
-    <form action="{% url 'admin' %}" method="post">
-        {% csrf_token %}
-        <h3 class="text-center">Panel de administrador</h3>
 
 
-        <div class="container text-center py-5">
-            <div class="row py-5">
-                <div class="col-5">
-                    <div class="dropdown col-auto">
-                        <button class="btn btn-secondary custom-button dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Elija descuento:
-                        </button>
-                        <ul class="dropdown-menu">
-                            {% for dto in dscto %}
-                            <li><a class="dropdown-item" href="#"
-                                    onclick="document.getElementById('id_actual_offer').value='{{ dto }}'">
-                                    {{ dto }}%</a></li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-                <div class="col">
+    <h3 class="text-center">Panel de administrador</h3>
 
-                    {{ form.actual_offer|add_class:"form-control custom-slot-offer" }}
-                </div>
-                <div class="col">
-                    <button class="btn btn-success custom-button" type="submit">Generar descuento</button>
-                </div>
-            </div>
+
+    <div class="container text-center">
+        <h4 class="py-3">Descuento</h4>
+        <form action="{% url 'admin' %}" method="post">
+            {% csrf_token %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Seleccionar Descuento</th>
+                        <th>Vista Previa Dto.</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary custom-button dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Elija descuento:
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% for dto in dscto %}
+                                    <li><a class="dropdown-item" href="#"
+                                            onclick="document.getElementById('id_actual_offer').value='{{ dto }}'">
+                                            {{ dto }}%</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            {{ form.actual_offer|add_class:"form-control custom-slot-offer" }}
+                        </td>
+                        <td>
+                            <button class="btn btn-success custom-button custom-button-success" type="submit">
+                                Generar descuento
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <!-- Tabla de productos -->
+    <div class="container text-center py-2">
+        <h4 class="py-3">Lista de Productos</h4>
+        <!-- Botón para agregar un nuevo flan -->
+        <div class="text-center mb-3">
+            <a href="{% url 'agregar_flan' %}" class="btn btn-primary custom-button custom-button-success">Agregar
+                Nuevo Flan</a>
         </div>
-
-    </form>
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Privado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flan in flanes %}
+                <tr>
+                    <td>{{ flan.name }}</td>
+                    <td>{{ flan.description }}</td>
+                    <td>${{ flan.price|intdot }}</td>
+                    <td>
+                        {% if flan.is_private %}
+                        <i class="fa-regular fa-circle-check fa-lg text-success"></i>
+                        {% else %}
+                        <i class="fa-regular fa-circle-xmark fa-lg text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'editar_flan' flan.id %}" class="btn btn-warning custom-button-warning"><i
+                                class="fa-regular fa-pen-to-square"></i></a>
+                        <a href="{% url 'eliminar_flan' flan.id %}" class="btn btn-danger custom-button-danger"
+                            onclick=confirmDelete()>
+                            <i class="fa-regular fa-trash-can"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
+<script>
+    function confirmDelete() {
+        return confirm('¿Estás seguro de eliminar este producto?');
+    }
+</script>
 
 {% endblock %}
